@@ -15,22 +15,15 @@ func main() {
 	s, count := strings.Split(string(f), "\n"), 0
 
 	for _, s := range s {
-		if strings.Count(s, "a")+
-			strings.Count(s, "e")+
-			strings.Count(s, "i")+
-			strings.Count(s, "o")+
-			strings.Count(s, "u") < 3 {
+		if len(s) < 2 {
+			continue
+		}
+
+		if !HasDoubleDupes(s) {
 			continue
 		}
 
 		if !HasDuplicates(s) {
-			continue
-		}
-
-		if strings.Contains(s, "ab") ||
-			strings.Contains(s, "cd") ||
-			strings.Contains(s, "pq") ||
-			strings.Contains(s, "xy") {
 			continue
 		}
 
@@ -40,8 +33,17 @@ func main() {
 	fmt.Println(count, "strings are nice")
 }
 
-func HasDuplicates(s string) bool {
+func HasDoubleDupes(s string) bool {
 	for i, c := range s[1:] {
+		if strings.Count(s, string([]rune{rune(s[i]), c})) >= 2 {
+			return true
+		}
+	}
+	return false
+}
+
+func HasDuplicates(s string) bool {
+	for i, c := range s[2:] {
 		if c == rune(s[i]) {
 			return true
 		}
