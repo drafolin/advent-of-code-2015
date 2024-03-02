@@ -12,7 +12,7 @@ func main() {
 	for {
 		salt++
 		hash := fmt.Sprintf("%x", md5.Sum([]byte(fmt.Sprintf("%s%d", in, salt))))
-		if strings.HasPrefix(hash, "00000") {
+		if strings.HasPrefix(hash, "000000") {
 			break
 		}
 	}
