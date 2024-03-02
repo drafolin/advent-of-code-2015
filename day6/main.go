@@ -33,12 +33,12 @@ func main() {
 
 	operations := ParseInput(string(f))
 
-	var lights [1000][1000]bool = [1000][1000]bool{}
+	var lights [1000][1000]int = [1000][1000]int{}
 
 	for y := range lights {
-		lights[y] = [1000]bool{}
+		lights[y] = [1000]int{}
 		for x := range lights[y] {
-			lights[y][x] = false
+			lights[y][x] = 0
 		}
 	}
 
@@ -47,11 +47,14 @@ func main() {
 			for x := op.from.X; x <= op.to.X; x++ {
 				switch op.op {
 				case TURN_ON:
-					lights[y][x] = true
+					lights[y][x] = lights[y][x] + 1
 				case TURN_OFF:
-					lights[y][x] = false
+					lights[y][x] = lights[y][x] - 1
+					if lights[y][x] < 0 {
+						lights[y][x] = 0
+					}
 				case TOGGLE:
-					lights[y][x] = !lights[y][x]
+					lights[y][x] = lights[y][x] + 2
 				}
 			}
 		}
@@ -59,10 +62,12 @@ func main() {
 
 	total := 0
 	for _, row := range lights {
-		total += Count(row[:], true)
+		for _, light := range row {
+			total += light
+		}
 	}
 
-	fmt.Println(total, "are turned on")
+	fmt.Println("brightness level is of", total)
 }
 
 var exp = Assert(regexp.Compile("([a-z ]*) ([0-9]{1,3}),([0-9]{1,3}) through ([0-9]{1,3}),([0-9]{1,3})"))
