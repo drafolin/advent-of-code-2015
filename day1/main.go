@@ -12,12 +12,18 @@ func main() {
 	}
 
 	lvl := 0
-	for _, op := range in {
+	var printedBasement bool
+
+	for i, op := range in {
 		if op == '(' {
 			lvl++
 		} else if op == ')' {
 			lvl--
 		}
+		if lvl < 0 && !printedBasement {
+			fmt.Println("entered basement: ", i+1)
+			printedBasement = true
+		}
 	}
-	fmt.Println(lvl)
+	fmt.Println("ends up on lvl ", lvl)
 }
