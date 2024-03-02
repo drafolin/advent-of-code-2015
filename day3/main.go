@@ -16,25 +16,27 @@ func main() {
 		panic(err)
 	}
 
-	visited, currentPos := []Coordinate{{0, 0}}, Coordinate{0, 0}
+	visited, currentPos, willMove := []Coordinate{{0, 0}}, [2]Coordinate{{0, 0}, {0, 0}}, 0
 
 	for _, move := range f {
 		switch move {
 		case 'v':
-			currentPos.Y--
+			currentPos[willMove].Y--
 		case '^':
-			currentPos.Y++
+			currentPos[willMove].Y++
 		case '<':
-			currentPos.X--
+			currentPos[willMove].X--
 		case '>':
-			currentPos.X++
+			currentPos[willMove].X++
 		default:
 			continue
 		}
 
-		if !slices.Contains(visited, currentPos) {
-			visited = append(visited, currentPos)
+		if !slices.Contains(visited, currentPos[willMove]) {
+			visited = append(visited, currentPos[willMove])
 		}
+
+		willMove ^= 1
 	}
 
 	fmt.Println("visited houses: ", len(visited))
