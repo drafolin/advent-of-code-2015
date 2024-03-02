@@ -16,7 +16,8 @@ func main() {
 
 	input := strings.Split(strings.TrimSpace(string(f)), "\n")
 
-	total := 0
+	totalWrap := 0
+	totalRibbon := 0
 	for _, l := range input {
 		dim := [3]string(strings.Split(l, "x"))
 		lS, wS, hS := dim[0], dim[1], dim[2]
@@ -33,10 +34,19 @@ func main() {
 
 		sides := [3]int{l * w, l * h, w * h}
 		slack := slices.Min(sides[:])
-		total += sides[0]*2 +
+		totalWrap += sides[0]*2 +
 			sides[1]*2 +
 			sides[2]*2 +
 			slack
+
+		lengths := []int{l, w, h}
+		slices.Sort(lengths)
+		ribbonLength := (lengths[0] + lengths[1]) * 2
+
+		//bow
+		ribbonLength += lengths[0] * lengths[1] * lengths[2]
+		totalRibbon += ribbonLength
 	}
-	fmt.Println(total)
+	fmt.Println("order for wrapping is", totalWrap, "ft2")
+	fmt.Println("order for ribbon is", totalRibbon, "ft")
 }
