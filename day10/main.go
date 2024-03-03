@@ -1,23 +1,25 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	regexp "github.com/dlclark/regexp2"
+)
 
 func main() {
-	const runs = 40
+	const runs = 50
 	input := "3113322113"
+	regex := regexp.MustCompile(`(\d)\1*`, 0)
 
 	for i := 0; i < runs; i++ {
-		res, consecutive, current := "", 0, rune(input[0])
-		for _, char := range input {
-			if current != char {
-				res += fmt.Sprint(consecutive) + string(current)
-				current, consecutive = char, 1
-			} else {
-				consecutive++
-			}
+		temp := ""
+		m, _ := regex.FindStringMatch(input)
+		for m != nil {
+			temp += fmt.Sprintf("%d%s", len(m.String()), m.Groups()[1].String())
+			m, _ = regex.FindNextMatch(m)
 		}
-		res += fmt.Sprint(consecutive) + string(current)
-		input = res
+		input = temp
+		go fmt.Println(i)
 	}
 
 	fmt.Println(len(input))
