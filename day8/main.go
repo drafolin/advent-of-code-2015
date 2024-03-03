@@ -20,12 +20,9 @@ func main() {
 			continue
 		}
 		fmt.Println(line)
-		result, err := strconv.Unquote(line)
+		result := strconv.Quote(line)
 
-		if err != nil {
-			panic(err)
-		}
-		total += len(line) - len(result)
+		total += len(result) - len(line)
 	}
 
 	fmt.Println(total)
