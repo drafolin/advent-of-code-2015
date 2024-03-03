@@ -84,5 +84,8 @@ func main() {
 		}
 		wireMap[id] = wire
 	}
+	wireB := wireMap["b"]
+	wireB.value = int32(46065)
+	wireMap["b"] = wireB
 	fmt.Println(getVal("a"))
 }
