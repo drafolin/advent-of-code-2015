@@ -35,6 +35,27 @@ func getMin(used []string, last string) int {
 	return minVal
 }
 
+func getMax(used []string, last string) int {
+	if len(used) == len(distances) {
+		return 0
+	}
+
+	maxVal := math.MinInt
+	for key := range distances {
+		if slices.Contains(used, key) {
+			continue
+		}
+
+		val := 0
+		if last != "" {
+			val += distances[last][key]
+		}
+
+		maxVal = max(maxVal, val+getMax(append(used, key), key))
+	}
+	return maxVal
+}
+
 func main() {
 	f, err := os.ReadFile("day9/input.txt")
 	if err != nil {
@@ -63,4 +84,5 @@ func main() {
 	}
 
 	fmt.Println(getMin([]string{}, ""))
+	fmt.Println(getMax([]string{}, ""))
 }
