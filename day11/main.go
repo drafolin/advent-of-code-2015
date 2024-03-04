@@ -14,6 +14,11 @@ func main() {
 		password = increment(password)
 	}
 	fmt.Println(password)
+	password = increment(password)
+	for !criterions(password) {
+		password = increment(password)
+	}
+	fmt.Println(password)
 }
 
 func increment(s string) string {
