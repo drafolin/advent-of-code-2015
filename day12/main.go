@@ -25,6 +25,9 @@ func recurseTotal(v interface{}) int {
 	switch i := v.(type) {
 	case map[string]interface{}:
 		for _, v := range i {
+			if v == "red" {
+				return 0
+			}
 			total += recurseTotal(v)
 		}
 	case []interface{}:
